@@ -53,7 +53,7 @@
 - name: Make sure console is connected with tty9
   lineinfile:
     dest: /boot/cmdline.txt
-    regexp: ^console=
+    regexp: ^console=tty1
     line: console=tty9
   when: not is_berryboot
 
