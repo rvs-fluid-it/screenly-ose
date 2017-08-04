@@ -1,0 +1,19 @@
+---
+- name: Installs dependencies
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - daemontools
+    - daemontools-run
+
+- name: Ensure omxplayer service directory exists
+  file:
+    path: /etc/service/omxplayer
+    state: directory
+    mode: 0755
+
+- name: Copies in run script
+  copy:
+    src: run
+    dest: /etc/service/omxplayer/run
+    mode: 0744
