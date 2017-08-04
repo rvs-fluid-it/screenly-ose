@@ -50,12 +50,19 @@
     force: yes
   when: not is_berryboot
 
+- name: Make sure console is connected with tty9
+  lineinfile:
+    dest: /boot/cmdline.txt
+    regexp: ^console=
+    line: console=tty9
+  when: not is_berryboot
+
 - name: Use Systemd as init and quiet boot process
   lineinfile:
     dest: /boot/cmdline.txt
     regexp: (.*)
     backrefs: yes
-    line: \1 quiet init=/lib/systemd/systemd
+    line: \1 loglevel=3 quiet init=/lib/systemd/systemd
   when: not is_berryboot
 
 - name: Install Screenly dependencies
