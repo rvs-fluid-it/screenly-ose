@@ -2,7 +2,7 @@
 
 # Make sure the command is launched interactive.
 if ! [ -t 0  ]; then
-  echo -e "Detected old installation command. Please use:\n$ bash <(curl -sL https://www.screenlyapp.com/install-ose.sh)"
+  echo -e "Detected old installation command. Please use:\n$ bash <(curl -sL https://raw.githubusercontent.com/rvs-fluid-it/screenly-ose/minimal/bin/install.sh)"
   exit 1
 fi
 
@@ -14,7 +14,7 @@ cat << EOF
   / ___/_____________  ___  ____  / /_  __   / __ \/ ___// ____/
   \__ \/ ___/ ___/ _ \/ _ \/ __ \/ / / / /  / / / /\__ \/ __/
  ___/ / /__/ /  /  __/  __/ / / / / /_/ /  / /_/ /___/ / /___
-/____/\___/_/   \___/\___/_/ /_/_/\__, /   \____//____/_____/
+/____/\___/_/   \___/\___/_/ /_/_/\__, /   \____//____/_____/  Minimal
                                  /____/
 EOF
 
@@ -22,7 +22,7 @@ EOF
 tput sgr 0
 
 
-echo -e "Screenly OSE requires a dedicated Raspberry Pi / SD card.\nYou will not be able to use the regular desktop environment once installed.\n"
+echo -e "Minimal Screenly OSE requires a dedicated Raspberry Pi / SD card.\nYou will not be able to use the regular desktop environment once installed.\n"
 read -p "Do you still want to continue? (y/N)" -n 1 -r -s INSTALL
 if [ "$INSTALL" != 'y' ]; then
   echo
@@ -31,7 +31,7 @@ fi
 
 echo && read -p "Would you like to use the development branch? You will get the latest features, but things may break. (y/N)" -n 1 -r -s DEV && echo
 if [ "$DEV" != 'y'  ]; then
-  BRANCH="production"
+  BRANCH="minimal"
 else
   BRANCH="master"
 fi
@@ -61,7 +61,7 @@ sudo apt-get install -y python-dev git-core libffi-dev libssl-dev
 curl -s https://bootstrap.pypa.io/get-pip.py | sudo python
 sudo pip install ansible==2.1.0.0
 
-ansible localhost -m git -a "repo=${1:-https://github.com/screenly/screenly-ose.git} dest=/home/pi/screenly version=$BRANCH"
+ansible localhost -m git -a "repo=${1:-https://github.com/rvs-fluid-it/screenly-ose.git} dest=/home/pi/screenly version=$BRANCH"
 cd /home/pi/screenly/ansible
 
 ansible-playbook site.yml $EXTRA_ARGS
